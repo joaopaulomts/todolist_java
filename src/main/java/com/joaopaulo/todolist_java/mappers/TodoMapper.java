@@ -12,5 +12,6 @@ public interface TodoMapper {
     TodoResponseDto toDto(TodoEntity todoEntity);
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "completed", ignore = true)
     TodoEntity toEntity(TodoRequestDto todoRequestDto);
 }
