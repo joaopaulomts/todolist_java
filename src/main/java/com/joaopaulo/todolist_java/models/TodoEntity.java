@@ -36,4 +36,6 @@ public class TodoEntity {
     @Column(updatable = false)
     @CreationTimestamp
     private Timestamp createdAt;
+    private boolean completed;
+    
 }

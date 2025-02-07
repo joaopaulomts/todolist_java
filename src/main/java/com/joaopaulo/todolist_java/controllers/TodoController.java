@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/todo")
+@RequestMapping("/todos")
 public class TodoController {
     private final TodoService todoService;
     
@@ -47,5 +47,10 @@ public class TodoController {
     @PutMapping("/{id}")
     public TodoResponseDto update(@PathVariable Long id, @RequestBody @Valid TodoRequestDto todoRequestDto) {
         return todoService.update(id, todoRequestDto);
+    }
+
+    @GetMapping("/completed/{id}")
+    public TodoResponseDto completed(@PathVariable Long id) {
+        return todoService.completed(id);
     }
 }

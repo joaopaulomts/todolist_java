@@ -8,7 +8,8 @@ public record TodoResponseDto(
     String name,
     String description,
     LocalDate deadline,
-    Timestamp createdAt
+    Timestamp createdAt,
+    boolean completed
 ){
     
 }

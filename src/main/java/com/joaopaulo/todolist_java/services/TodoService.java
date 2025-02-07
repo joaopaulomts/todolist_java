@@ -30,23 +30,32 @@ public class TodoService {
     }
 
     public TodoResponseDto getById(Long id) {
-        Optional<TodoEntity> todo = todoRepository.findById(id);
-        if(todo.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
-        return todoMapper.toDto(todo.get());
+        TodoEntity todo = checkId(id);
+        return todoMapper.toDto(todo);
     }
 
     public TodoResponseDto delete(Long id) {
-        Optional<TodoEntity> todo = todoRepository.findById(id);
-        if(todo.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
-        todoRepository.delete(todo.get());
-        return todoMapper.toDto(todo.get());
+        TodoEntity todo = checkId(id);
+        todoRepository.delete(todo);
+        return todoMapper.toDto(todo);
     }
 
     public TodoResponseDto update(Long id, TodoRequestDto todoRequestDto) {
-        Optional<TodoEntity> todo = todoRepository.findById(id);
-        if(todo.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
+        checkId(id);
         TodoEntity todoEntity = todoMapper.toEntity(todoRequestDto);
         todoEntity.setId(id);
         return todoMapper.toDto(todoRepository.save(todoEntity));
+    }
+
+    public TodoResponseDto completed(Long id) {
+        TodoEntity todo = checkId(id);
+        todo.setCompleted(true);
+        return todoMapper.toDto(todoRepository.save(todo));
+    }
+
+    public TodoEntity checkId(Long id) {
+        Optional<TodoEntity> todo = todoRepository.findById(id);
+        if(todo.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não encontrada");
+        return todo.get();
     }
 }
